@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieFlix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Flash Messages -->
+  
+
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Left Navigation Links -->
+            <div class="flex space-x-6">
+                <a href="/" class="text-2xl font-bold text-white">MovieFlix</a>
+                <a href="/movies" class="text-lg hover:text-blue-400">Movies</a>
+                <a href="/events" class="text-lg hover:text-blue-400">Events</a>
+                <a href="/trending" class="text-lg hover:text-blue-400">Trending</a>
+            </div>
+
+<!-- Search Bar -->
+<!-- Search Bar Form -->
+<form action="{{ url_for('general.search') }}" method="GET" class="relative w-1/3 flex">
+    <!-- Input Field -->
+    <div class="relative w-full">
+        <input type="text" name="q" placeholder="Search movies, events..." 
+            class="w-full p-2 pl-10 pr-4 rounded-l bg-gray-700 text-white focus:ring-2 focus:ring-blue-400 transition duration-300">
+        
+        <!-- Left Search Icon -->
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-search"></i> <!-- Font Awesome -->
+        </span>
+    </div>
+
+    <!-- Search Button -->
+    <button type="submit" class="px-4 bg-blue-500 text-white rounded-r hover:bg-blue-600 transition duration-300">
+        <i class="fas fa-search"></i> <!-- Font Awesome -->
+    </button>
+</form>
+
+
+            <!-- Right Section: Authentication -->
+            <div class="flex items-center space-x-4">
+                {% if session.get('user_id') %}
+                    <div class="relative group">
+                        <div x-data="{ open: false }" class="relative">
+                            <!-- Profile Button -->
+                            <button @click="open = !open" class="bg-gray-900 text-white px-4 py-2 rounded-md">
+                                <i class="fas fa-user"></i><span class="text-lg font-semibold">{{ session.get('user_name') }}</span><i class="fas fa-chevron-down"></i>
+                            </button>
+                        
+                            <!-- Dropdown Menu -->
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+                                <a href="/profile" class="block px-4 py-2 hover:bg-gray-700">
+                                    <i class="fas fa-user-circle mr-2"></i> Profile
+                                </a>
+                                <a href="/my-bookings" class="block px-4 py-2 hover:bg-gray-700">
+                                    <i class="fas fa-ticket-alt mr-2"></i> My Bookings
+                                </a>
+                                <a href="/settings" class="block px-4 py-2 hover:bg-gray-700">
+                                    <i class="fas fa-cog mr-2"></i> Settings
+                                </a>
+                                <div class="border-t border-gray-700 my-2"></div>
+                                <a href="/logout" class="block px-4 py-2 hover:bg-gray-700 text-red-400">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                </a>
+                            </div>
+                        </div>                        
+                    </div>
+                {% else %}
+                    <a href="/signin" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Sign In
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 p-6 mt-10">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">About MovieFlix</h3>
+                    <p class="text-gray-400">Your premier destination for movie tickets and entertainment.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about" class="hover:text-white">About Us</a></li>
+                        <li><a href="/contact" class="hover:text-white">Contact</a></li>
+                        <li><a href="/faq" class="hover:text-white">FAQ</a></li>
+                        <li><a href="/privacy" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-2x"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <form class="space-y-2">
+                        <input type="email" placeholder="Enter your email" class="w-full p-2 rounded bg-gray-700">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-gray-400">
+                <p>&copy; 2025 MovieFlix. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

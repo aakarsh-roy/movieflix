@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-10 px-6">
+    <h1 class="text-3xl font-bold mb-6 text-center text-white">Upcoming Events</h1>
+
+    {% if events %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% for event in events %}
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
+                    <h2 class="text-xl font-semibold text-blue-400">{{ event.title }}</h2>
+                    <p class="mt-2 text-gray-300">{{ event.description }}</p>
+                    <p class="mt-3 text-sm text-gray-400"><strong>Date:</strong> {{ event.date }}</p>
+                    <p class="text-sm text-gray-400"><strong>Location:</strong> {{ event.location }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-gray-400 text-lg">No upcoming events found.</p>
+    {% endif %}
+</div>
+{% endblock %}
