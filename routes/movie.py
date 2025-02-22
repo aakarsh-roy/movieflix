@@ -42,7 +42,7 @@ def book_ticket(movie_id):
             seats = request.form.getlist("seats[]")[0].split(',')  # Split comma-separated seats
             seats = [seat.strip() for seat in seats]  # Clean up whitespace
             showtime = request.form["showtime"]
-            total_price = len(seats) * movie.get("price", 200)
+            total_price = len(seats) * movie("price", 200)
             
             booking_data = {
                 "user_id": ObjectId(session['user_id']),

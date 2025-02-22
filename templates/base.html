@@ -88,6 +88,35 @@
     <main class="container mx-auto p-6">
         {% block content %}{% endblock %}
     </main>
+    
+    <!-- Chatbot Button -->
+<button id="chatbot-btn" class="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition">
+    💬 Chat
+</button>
+
+
+
+<!-- Floating Chatbot Button -->
+<div id="chatbot-container" class="fixed bottom-5 right-5 z-[99999]">
+    <button id="chatbot-toggle" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-lg">
+        💬 Chat
+    </button>
+
+    <!-- Chatbot Window (Hidden by Default) -->
+    <div id="chatbot-box" class="hidden fixed bottom-16 right-5 w-80 bg-gray-800 text-white rounded-lg shadow-lg z-[9999]">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold">MovieFlix Chatbot</h3>
+            <button id="close-chatbot" class="text-gray-400 hover:text-gray-300">✖</button>
+        </div>
+        <div id="chat-messages" class="p-4 h-64 overflow-y-auto text-sm"></div>
+        <div class="p-4 border-t border-gray-700 flex">
+            <input id="chat-input" type="text" class="flex-1 p-2 bg-gray-700 text-white rounded-l focus:outline-none" placeholder="Ask something...">
+            <button id="send-message" class="bg-blue-600 px-4 py-2 rounded-r hover:bg-blue-700">▶</button>
+        </div>
+    </div>
+</div>
+
+
 
     <!-- Footer -->
     <footer class="bg-gray-800 p-6 mt-10">
@@ -129,5 +158,57 @@
             </div>
         </div>
     </footer>
+
+
+     <!-- Chatbot Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chatbotToggle = document.getElementById("chatbot-toggle");
+            const chatbotBox = document.getElementById("chatbot-box");
+            const closeChatbot = document.getElementById("close-chatbot");
+            const chatMessages = document.getElementById("chat-messages");
+            const chatInput = document.getElementById("chat-input");
+            const sendMessage = document.getElementById("send-message");
+    
+            // Show/Hide chatbot
+            chatbotToggle.addEventListener("click", () => {
+                chatbotBox.classList.toggle("hidden");
+            });
+    
+            closeChatbot.addEventListener("click", () => {
+                chatbotBox.classList.add("hidden");
+            });
+    
+            // Send message to backend
+            sendMessage.addEventListener("click", async () => {
+                const userMessage = chatInput.value.trim();
+                if (userMessage === "") return;
+    
+                // Display user message
+                chatMessages.innerHTML += `<div class="text-right text-blue-400 mb-2">${userMessage}</div>`;
+                chatInput.value = "";
+    
+                try {
+                    // Call backend chatbot API
+                    const response = await fetch("/chatbot", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ message: userMessage })
+                    });
+    
+                    const data = await response.json();
+    
+                    // Display bot response
+                    chatMessages.innerHTML += `<div class="text-left text-green-400 mb-2">${data.response}</div>`;
+    
+                    // Auto-scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } catch (error) {
+                    chatMessages.innerHTML += `<div class="text-left text-red-400 mb-2">Error: Could not reach chatbot.</div>`;
+                }
+            });
+        });
+    </script>
+    
 </body>
 </html>

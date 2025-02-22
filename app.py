@@ -6,6 +6,8 @@ from routes.booking import booking
 from routes.user import user
 from routes.general import general
 from routes.database import db
+from routes.chatbot import chatbot
+
 
 
 def create_app():
@@ -19,6 +21,7 @@ def create_app():
     app.register_blueprint(booking, url_prefix='/')
     app.register_blueprint(user, url_prefix='/')
     app.register_blueprint(general, url_prefix='/')
+    app.register_blueprint(chatbot)
     
     return app
 
