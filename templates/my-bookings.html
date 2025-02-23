@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-3xl font-bold text-center mb-8">My Bookings</h1>
+  {% if bookings and bookings|length > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for booking in bookings %}
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <h2 class="text-2xl font-bold text-white">{{ booking.title }}</h2>
+          <p class="text-gray-400 text-sm">Type: {{ booking.type | capitalize }}</p>
+        </div>
+        <div class="mb-4">
+          <p class="text-gray-300"><span class="font-semibold">Showtime:</span> {{ booking.showtime }}</p>
+          <p class="text-gray-300"><span class="font-semibold">Booked on:</span> {{ booking.booking_date.strftime('%B %d, %Y') }}</p>
+        </div>
+        <div class="mb-4">
+          <p class="text-gray-300"><span class="font-semibold">Status:</span>
+            {% if booking.status == 'confirmed' %}
+              <span class="text-green-400">Confirmed</span>
+            {% elif booking.status == 'cancelled' %}
+              <span class="text-red-400">Cancelled</span>
+            {% else %}
+              <span class="text-yellow-400">{{ booking.status }}</span>
+            {% endif %}
+          </p>
+        </div>
+        {% if booking.status != 'cancelled' %}
+        <div>
+          <a href="{{ url_for('booking.cancel_booking', booking_id=booking._id) }}"
+             class="block text-center bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Cancel Booking
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-gray-400 text-lg">You have no bookings yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

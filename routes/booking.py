@@ -8,13 +8,15 @@ from utils import send_booking_confirmation
 
 booking = Blueprint('booking', __name__)
 
-@booking.route("/my_bookings")
+@booking.route("/my-bookings")
 @login_required
 def my_bookings():
     user_id = ObjectId(session["user_id"])
     
+    # Retrieve bookings sorted by booking_date (most recent first)
     user_bookings = list(bookings.find({"user_id": user_id}).sort("booking_date", -1))
     
+    # Enrich each booking with movie or event details
     for booking in user_bookings:
         if "movie_id" in booking:
             movie = movies_collection.find_one({"_id": booking["movie_id"]})
@@ -22,12 +24,13 @@ def my_bookings():
                 booking["title"] = movie["title"]
                 booking["type"] = "movie"
         elif "event_id" in booking:
-            event = events.find_one({"_id": booking["event_id"]})
-            if event:
-                booking["title"] = event["title"]
+            event_doc = events.find_one({"_id": booking["event_id"]})
+            if event_doc:
+                booking["title"] = event_doc["title"]
                 booking["type"] = "event"
     
-    return render_template("my_bookings.html", bookings=user_bookings)
+    return render_template("my-bookings.html", bookings=user_bookings)
+
 
 @booking.route("/cancel_booking/<booking_id>")
 @login_required
@@ -86,5 +89,4 @@ def booking_confirmation(booking_id):
         booking=booking,
         movie=movie
     )
-
 

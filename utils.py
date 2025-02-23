@@ -35,7 +35,7 @@ def generate_booking_pdf(booking_data):
         pdf.cell(190, 8, f" Booking ID: {booking_data['_id']}", 0, 1)
         pdf.cell(190, 8, f" Movie: {booking_data['title']}", 0, 1)
         pdf.cell(190, 8, f" Showtime: {booking_data['showtime']}", 0, 1)
-        pdf.cell(190, 8, f" Seats: {', '.join(booking_data['seats'])}", 0, 1)
+        pdf.cell(190, 8, f" Seat No.: {', '.join(booking_data['seats'])}", 0, 1)
         pdf.cell(190, 8, f" Payment Status: Confirmed", 0, 1)
         pdf.ln(5)
 

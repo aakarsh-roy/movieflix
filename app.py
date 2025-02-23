@@ -22,7 +22,6 @@ def create_app():
     app.register_blueprint(user, url_prefix='/')
     app.register_blueprint(general, url_prefix='/')
     app.register_blueprint(chatbot)
-    
     return app
 
 app = create_app()
