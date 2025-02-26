@@ -54,7 +54,8 @@
     <h2 class="text-3xl font-bold mb-6">🔥 Trending Movies</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {% for movie in trending_movies %}
-        <div class="bg-gray-800 p-4 rounded-lg">
+        <div class="bg-gray-800 p-4 rounded-lg" data-movie-id="{{ movie._id }}" 
+        onclick="viewMovieDetails('{{ movie._id }}')">
             <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4">
             <h2 class="text-xl font-bold">{{ movie.title }}</h2>
             <p class="text-sm text-gray-400">{{ movie.genre }} • ⭐ {{ movie.rating }}</p>
@@ -71,7 +72,8 @@
     <h2 class="text-3xl font-bold mb-6">🎬 Upcoming Releases</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {% for movie in upcoming_movies %}
-        <div class="bg-gray-800 p-4 rounded-lg">
+        <div class="bg-gray-800 p-4 rounded-lg" data-movie-id="{{ movie._id }}" 
+        onclick="viewMovieDetails('{{ movie._id }}')">
             <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4">
             <h2 class="text-xl font-bold">{{ movie.title }}</h2>
             <p class="text-sm text-gray-400">Release Date: {{ movie.release_date }}</p>

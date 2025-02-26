@@ -18,7 +18,7 @@
     <!-- Navigation Bar -->
     <nav class="bg-gray-800 p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Left Navigation Links -->
+            
             <div class="flex space-x-6">
                 <a href="/" class="text-2xl font-bold text-white">MovieFlix</a>
                 <a href="/movies" class="text-lg hover:text-blue-400">Movies</a>
@@ -29,20 +29,20 @@
 <!-- Search Bar -->
 <!-- Search Bar Form -->
 <form action="{{ url_for('general.search') }}" method="GET" class="relative w-1/3 flex">
-    <!-- Input Field -->
+    
     <div class="relative w-full">
         <input type="text" name="q" placeholder="Search movies, events..." 
             class="w-full p-2 pl-10 pr-4 rounded-l bg-gray-700 text-white focus:ring-2 focus:ring-blue-400 transition duration-300">
         
-        <!-- Left Search Icon -->
+       
         <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <i class="fas fa-search"></i> <!-- Font Awesome -->
+            <i class="fas fa-search"></i> 
         </span>
     </div>
 
-    <!-- Search Button -->
+    
     <button type="submit" class="px-4 bg-blue-500 text-white rounded-r hover:bg-blue-600 transition duration-300">
-        <i class="fas fa-search"></i> <!-- Font Awesome -->
+        <i class="fas fa-search"></i> 
     </button>
 </form>
 
@@ -209,6 +209,6 @@
             });
         });
     </script>
-    
+    <script src="{{ url_for('static', filename='js/movie-details.js') }}"></script>
 </body>
 </html>

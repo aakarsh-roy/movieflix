@@ -53,21 +53,38 @@ def generate_booking_pdf(booking_data):
         pdf.cell(190, 10, "Payment Summary", 0, 1, "L")
         pdf.set_font("Arial", "B", 12)
 
+        # Header Row
         pdf.cell(95, 8, "Description", 1, 0, "C")
         pdf.cell(95, 8, "Amount (Rs.)", 1, 1, "C")
 
+        # Base Ticket Price
         pdf.set_font("Arial", "", 12)
-        pdf.cell(95, 8, f" Tickets ({len(booking_data['seats'])} seats)", 1, 0, "C")
-        pdf.cell(95, 8, f"Rs. {booking_data['total_price']}", 1, 1, "C")
+        seat_count = len(booking_data['seats'])
+        base_price = seat_count * 200  # Base ticket price
+        pdf.cell(95, 8, f" Base Ticket Price ({seat_count} seats × Rs. 200)", 1, 0, "L")
+        pdf.cell(95, 8, f"Rs. {base_price}", 1, 1, "R")
 
-        pdf.cell(95, 8, " Discount Applied", 1, 0, "C")
-        pdf.cell(95, 8, "Rs. 0.00", 1, 1, "C")
+        # Insurance if selected
+        total_amount = base_price
+        if booking_data.get('extras', {}).get('has_insurance'):
+            insurance_cost = seat_count * 20
+            total_amount += insurance_cost
+            pdf.cell(95, 8, f" Ticket Insurance ({seat_count} × Rs. 20)", 1, 0, "L")
+            pdf.cell(95, 8, f"Rs. {insurance_cost}", 1, 1, "R")
 
+          # Premium Seats if selected
+        if booking_data.get('extras', {}).get('has_premium_seats'):
+            premium_cost = seat_count * 50
+            total_amount += premium_cost
+            pdf.cell(95, 8, f" Premium Seat Selection ({seat_count} × Rs. 50)", 1, 0, "L")
+            pdf.cell(95, 8, f"Rs. {premium_cost}", 1, 1, "R")
+
+         # Grand Total
         pdf.set_font("Arial", "B", 12)
-        pdf.cell(95, 8, " Grand Total", 1, 0, "C")
-        pdf.cell(95, 8, f"Rs. {booking_data['total_price']}", 1, 1, "C")
+        pdf.cell(95, 8, " Grand Total", 1, 0, "L")
+        pdf.cell(95, 8, f"Rs. {total_amount}", 1, 1, "R")
         pdf.ln(10)
-
+        
         # Booking Terms
         pdf.set_font("Arial", "B", 14)
         pdf.cell(190, 10, "Booking Terms & Conditions", 0, 1, "L")
@@ -99,22 +116,23 @@ def send_booking_confirmation(email, booking_data):
         pdf_file = generate_booking_pdf(booking_data)
         logger.info(f"PDF generated successfully: {pdf_file}")
 
-        subject = f"MovieFlix - Booking Confirmation - {booking_data['title']}"
+        subject = f"🎬 Your MovieFlix Booking Confirmation - {booking_data['title']}"
+
         contents = [
-            f"Dear {booking_data['name']},",
-            "Thank you for booking with MovieFlix!",
-            "",
-            "Booking Details:",
-            f"Movie: {booking_data['title']}",
-            f"Showtime: {booking_data['showtime']}",
-            f"Seats: {', '.join(booking_data['seats'])}",
-            f"Total Amount: Rs.{booking_data['total_price']}",
-            "",
-            "Please find your booking confirmation attached.",
-            "",
-            "Best regards,",
-            "MovieFlix Team"
-        ]
+    f"Hi {booking_data['name']},",
+    "",
+    "Thank you for booking with MovieFlix! We’re excited to have you at the screening.",
+    "Attached is your booking confirmation. Please present it at the entrance.",
+    "",
+    "If you have any questions, feel free to reply to this email.",
+    "",
+    "Enjoy the movie! ",
+    "",
+    "Best regards,",
+    "The MovieFlix Team",
+    " support@movieflix.com | +91-9876543210",
+    " Visit us: https://www.movieflix.com"
+]
 
         # Use yag from email_config.py or pass credentials directly
         yag_instance = yagmail.SMTP(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASS'))

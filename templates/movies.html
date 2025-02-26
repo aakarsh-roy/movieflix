@@ -3,10 +3,12 @@
 <h1 class="text-4xl font-bold mb-6 text-center">Now Showing 🎥</h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for movie in movies %}
-    <div class="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
+    <div class="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer" 
+         data-movie-id="{{ movie._id }}" 
+         onclick="viewMovieDetails('{{ movie._id }}')">
         <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4 w-full h-64 object-cover">
         <h2 class="text-xl font-bold">{{ movie.title }}</h2>
-        <a href="{{ url_for('movie.book_ticket', movie_id=movie['_id']) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 transition duration-300 text-white font-bold py-3 px-6 rounded-lg">
+        <a href="{{ url_for('movie.book_ticket', movie_id=movie._id) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 transition duration-300 text-white font-bold py-3 px-6 rounded-lg">
             Book Now
         </a>
     </div>

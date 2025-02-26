@@ -7,6 +7,7 @@ from functools import wraps
 
 auth = Blueprint('auth', __name__)
 
+
 # ✅ Sign In Route - Ensures correct password checking
 @auth.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -43,22 +44,22 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        # ✅ Prevent duplicate accounts
+        
         if users.find_one({"email": email}):
             flash('Email already exists', 'error')
             return redirect(url_for('auth.register'))
 
-        # ✅ Ensure password is not empty
+        
         if not password:
             flash('Password cannot be empty!', 'error')
             return redirect(url_for('auth.register'))
 
-        hashed_password = generate_password_hash(password)  # ✅ Correct hashing method
+        hashed_password = generate_password_hash(password)  
 
         user_data = {
             "name": name,
             "email": email,
-            "password": hashed_password,  # ✅ Stored as a STRING
+            "password": hashed_password, 
             "date_joined": datetime.now(),
             "preferences": {
                 "favorite_genres": [],
@@ -73,7 +74,7 @@ def register():
     return render_template('register.html')
 
 
-# ✅ Logout Route
+
 @auth.route('/logout')
 def logout():
     session.clear()
@@ -81,7 +82,7 @@ def logout():
     return redirect(url_for('general.index'))
 
 
-# ✅ Login Required Decorator
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):

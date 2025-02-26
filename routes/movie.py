@@ -55,6 +55,7 @@ def book_ticket(movie_id):
                 "total_price": total_price,
                 "booking_date": datetime.now(),
                 "status": "confirmed"
+                
             }
 
             # Insert booking into database
@@ -140,4 +141,4 @@ def cancel_booking(booking_id):
     else:
         flash('Invalid booking!', 'error')
     
-    return redirect(url_for('profile'))
+    return redirect(url_for('user.profile'))
