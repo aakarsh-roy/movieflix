@@ -142,3 +142,8 @@ def cancel_booking(booking_id):
         flash('Invalid booking!', 'error')
     
     return redirect(url_for('user.profile'))
+
+@movie.route("/trending")
+def trending_movies():
+    trending_movies = list(movies_collection.find({"type": "trending"}).sort("rating", -1))
+    return render_template("trending.html", trending_movies=trending_movies)

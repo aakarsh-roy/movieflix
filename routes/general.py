@@ -11,7 +11,7 @@ def index():
     featured_events = list(events.find().limit(2))
     recent_reviews = list(reviews.find().sort("date", -1).limit(2))
     
-    slider_images = ["slider1.jpg", "slider2.avif", "slider3.webp"]
+    slider_images = ["slider1.jpg", "slider2.avif", "slider4.jpg"]
     
     return render_template(
         "index.html",

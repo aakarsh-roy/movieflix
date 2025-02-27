@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const seatsInput = document.getElementById('seats');
     const selectedSeats = new Set();
     
-    // Mock booked seats (replace with actual data from backend)
+    
     const bookedSeats = new Set(['A1', 'A2', 'B5', 'C7', 'D4', 'E9']);
     
-    // Initialize booked seats
+    
     bookedSeats.forEach(seatId => {
         const seatButton = document.querySelector(`[data-seat="${seatId}"]`);
         if (seatButton) {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle seat selection
+    
     seatMap.addEventListener('click', function(e) {
         const seatButton = e.target.closest('.seat');
         if (!seatButton || seatButton.disabled) return;
@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
             seatButton.classList.add('bg-blue-500');
         }
         
-        // Update hidden input
+        
         seatsInput.value = Array.from(selectedSeats).join(',');
         
-        // Trigger change event for price calculation
+        
         const event = new Event('change');
         seatsInput.dispatchEvent(event);
     });
