@@ -2,8 +2,6 @@
 
 {% block content %}
 
-
-
 <!-- Hero Section with Image Slider -->
 <div class="relative w-full h-[500px]">
     <!-- Overlay Text Content (Placed Above the Images) -->
@@ -14,7 +12,6 @@
             Book Now
         </a>
     </div>
-
 
     <!-- Swiper Slider (Kept Below the Text) -->
     <div class="swiper mySwiper w-full h-full z-0">
@@ -32,7 +29,6 @@
     </div>
 </div>
 
-
 <!-- Swiper.js CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -46,18 +42,16 @@
     });
 </script>
 
-
-
-
 <!-- Trending Movies Section -->
 <section class="mt-12">
     <h2 class="text-3xl font-bold mb-6">🔥 Trending Movies</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for movie in trending_movies %}
-        <div class="bg-gray-800 p-4 rounded-lg" data-movie-id="{{ movie._id }}" 
-        onclick="viewMovieDetails('{{ movie._id }}')">
-            <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4">
-            <h2 class="text-xl font-bold">{{ movie.title }}</h2>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer" 
+             data-movie-id="{{ movie._id }}" 
+             onclick="viewMovieDetails('{{ movie._id }}')">
+            <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4 w-full h-66 object-cover">
+            <h2 class="text-lg font-bold">{{ movie.title }}</h2>
             <p class="text-sm text-gray-400">{{ movie.genre }} • ⭐ {{ movie.rating }}</p>
             <a href="{{ url_for('movie.book_ticket', movie_id=movie['_id']) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Book Now
@@ -70,12 +64,13 @@
 <!-- Upcoming Releases -->
 <section class="mt-12">
     <h2 class="text-3xl font-bold mb-6">🎬 Upcoming Releases</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {% for movie in upcoming_movies %}
-        <div class="bg-gray-800 p-4 rounded-lg" data-movie-id="{{ movie._id }}" 
-        onclick="viewMovieDetails('{{ movie._id }}')">
-            <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4">
-            <h2 class="text-xl font-bold">{{ movie.title }}</h2>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer" 
+             data-movie-id="{{ movie._id }}" 
+             onclick="viewMovieDetails('{{ movie._id }}')">
+            <img src="{{ url_for('static', filename='images/' + movie.poster) }}" alt="{{ movie.title }}" class="rounded-lg mb-4 w-full h-66 object-cover">
+            <h2 class="text-lg font-bold">{{ movie.title }}</h2>
             <p class="text-sm text-gray-400">Release Date: {{ movie.release_date }}</p>
         </div>
         {% endfor %}

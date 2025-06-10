@@ -6,8 +6,8 @@ general = Blueprint('general', __name__)
 
 @general.route("/")
 def index():
-    trending_movies = list(movies_collection.find({"type": "trending"}).limit(3))
-    upcoming_movies = list(movies_collection.find({"type": "upcoming"}).limit(3))
+    trending_movies = list(movies_collection.find({"type": "trending"}).limit(4))
+    upcoming_movies = list(movies_collection.find({"type": "upcoming"}).limit(4))
     featured_events = list(events.find().limit(2))
     recent_reviews = list(reviews.find().sort("date", -1).limit(2))
     
